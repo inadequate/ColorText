@@ -1,0 +1,15 @@
+name: ColorText
+version: 0.1 Alpha
+api: [1.2.0]
+author: Heromine
+description: will be add soon...
+main: ColorText\Main
+
+commands:
+ sg:
+  permission: color
+  description: Change text color
+permissions:
+ color:
+  default: "true"
+  description: "Change text color"
