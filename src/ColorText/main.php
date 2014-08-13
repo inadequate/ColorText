@@ -18,7 +18,7 @@ public function onChat(PlayerChatEvent $event){
    foreach($this->getServer()->getOnlinePlayers() as $players){
       if(isset($this->coloredChatPlayers[$players])){
          $players->setRemoveFormat(false);
-         $players->sendMessage("7<".$player->getName()."> ".$message);//should send message in grey
+         $players->sendMessage("§7<".$player->getName()."> ".$message);//should send message in grey
       }else{
          $players->sendMessage("<".$player->getName()."> ".$message);
       }
