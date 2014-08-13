@@ -7,6 +7,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
 use pocketmine\plugin\PluginBase;
 use pocketmine\command\Command;
+use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 
 class ColorText extends PluginBase implements Listener{
