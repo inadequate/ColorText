@@ -6,10 +6,6 @@ description: will be add soon...
 main: ColorText\ColorText
 
 commands:
-  sg:
-    permission: color
-    description: Change text color
-permissions:
   color:
-    default: "true"
-    description: "Change text color"
+    permission: "true"
+    description: Change text color
