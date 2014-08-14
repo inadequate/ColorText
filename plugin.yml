@@ -7,5 +7,5 @@ main: ColorText\ColorText
 
 commands:
   color:
-    permission: "true"
+    permission: true
     description: Change text color
