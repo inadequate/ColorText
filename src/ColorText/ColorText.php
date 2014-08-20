@@ -18,9 +18,9 @@ class ColorText extends PluginBase implements Listener{
       foreach($this->getServer()->getOnlinePlayers() as $players){
          if(isset($this->coloredChatPlayers[$players])){
             $players->setRemoveFormat(false);
-            $players->sendMessage("§7<".$player->getName()."> ".$message);//should send message in grey
+            $players->setMessage("§7<".$player->getName()."> ".$message);//should send message in grey
          }else{
-            $players->sendMessage("<".$player->getName()."> ".$message);
+            $players->setMessage("<".$player->getName()."> ".$message);
          }
       }
    }
