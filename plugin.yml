@@ -1,11 +1,18 @@
 name: ColorText
-version: 0.1 Alpha
-api: [1.2.0]
+version: 1.0.0
+api: [1.0.0]
 author: Heromine
-description: will be add soon...
 main: ColorText\ColorText
-
+description: Chat in color
 commands:
-  color:
-    permission: true
-    description: Change text color
+    color:
+        permission: Color.color
+        description: Change text color
+permission:
+    color:
+        default: op
+        description: Color command
+        children:
+            Color.color:
+                default: op
+                description: "Color"
