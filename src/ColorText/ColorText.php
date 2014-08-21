@@ -4,32 +4,40 @@ namespace ColorText;
 
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
-use pocketmine\command\CommandExecutor;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 
-class ColorText extends PluginBase implements CommandExecutor,Listener{
+class ColorText extends PluginBase implements Listener{
    private $coloredChatPlayers=array();
 
    public function onEnable(){
       $this->getServer()->getPluginManager()->registerEvents($this, $this);
+      foreach($this->getServer()->getOnlinePlayers() as $player){
+         $player->setRemoveFormat(false);
+      }
    }
-
+   /**
+    * @priority MONITOR
+    * @ignoreCancelled true
+    */
+   public function onJoin(PlayerJoinEvent $ev){
+      $ev->getPlayer()->setRemoveFormat(false);
+   }
    /**
      * @param PlayerChatEvent $event
      *
-     * @priority HIGHEST
-     * @ignoreCancelled true
+     * @priority LOWEST
+     * @ignoreCancelled false
      */
    public function onChat(PlayerChatEvent $event){
       $player = $event->getPlayer();
       $message = $event->getMessage();
       foreach($this->getServer()->getOnlinePlayers() as $players){
          if(isset($this->coloredChatPlayers[$players->getName()])){
-            $players->setRemoveFormat(false);
             $players->sendMessage("§7<".$player->getName()."> ".$message);//setMessage doesnt work in BigBrother?
          }else{
             $players->sendMessage("<".$player->getName()."> ".$message);
