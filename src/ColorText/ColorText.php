@@ -8,6 +8,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
+use pocketmine\Player; //<- Added This
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 
@@ -47,17 +48,20 @@ class ColorText extends PluginBase implements Listener{
    }
    
    public function onCommand(CommandSender $sender, Command $command, $label, array $args){
-      $cmd = $command->getName();
-      if($sender instanceof Player){
-         if($cmd=="color"){
-            if(in_array($sender->getName(),$this->coloredChatPlayers)){
-               unset($this->coloredChatPlayers[$sender->getName()]);
-               $sender->sendMessage("You have disabled color chat!");
-            }else{
-               array_push($this->coloredChatPlayers,$sender->getName());
-               $sender->sendMessage("You have enabled color chat!");
-            }
-         }
+      $cmd = strtolower($command); //<-Changed Code
+      switch($cmd){
+	        case "color":
+	          if($sender instanceof Player){
+		            $sender->sendMessage("COLOR");
+              if(in_array($sender->getName(),$this->coloredChatPlayers)){
+                 unset($this->coloredChatPlayers[$sender->getName()]);
+                 $sender->sendMessage("You have disabled color chat!");
+              }else{
+                 array_push($this->coloredChatPlayers,$sender->getName());
+                 $sender->sendMessage("You have enabled color chat!");
+              }
+           }
+           return true;
       }
    }
 }
