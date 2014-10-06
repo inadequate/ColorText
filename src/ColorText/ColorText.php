@@ -39,7 +39,7 @@ class ColorText extends PluginBase implements Listener{
       $message = $event->getMessage();
       foreach($this->getServer()->getOnlinePlayers() as $players){
          if(isset($this->coloredChatPlayers[$players->getName()])){
-            $players->sendMessage("§7<".$player->getName()."> ".$message);//setMessage doesnt work in BigBrother?
+            $players->sendMessage("§7<".$player->getName()."> " .$message);//setMessage doesnt work in BigBrother?
          }else{
             $players->sendMessage("<".$player->getName()."> ".$message);
          }
@@ -52,13 +52,13 @@ class ColorText extends PluginBase implements Listener{
       switch($cmd){
 	        case "color":
 	          if($sender instanceof Player){
-		            $sender->sendMessage("COLOR");
+		            $sender->sendMessage(TextFormat::YELLOW . "==========COLOR========== ");
               if(in_array($sender->getName(),$this->coloredChatPlayers)){
                  unset($this->coloredChatPlayers[$sender->getName()]);
-                 $sender->sendMessage("You have disabled color chat!");
+                 $sender->sendMessage(TextFormat::RED . "You have disabled color chat!");
               }else{
                  array_push($this->coloredChatPlayers,$sender->getName());
-                 $sender->sendMessage("You have enabled color chat!");
+                 $sender->sendMessage(TextFormat::BLUE . "You have enabled color chat!");
               }
            }
            return true;
