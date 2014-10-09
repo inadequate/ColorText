@@ -8,7 +8,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\Player; //<- You forgot to include Player library
+use pocketmine\Player; //<- forgot to include Player library
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 
@@ -39,7 +39,7 @@ class ColorText extends PluginBase implements Listener{
       $message = $event->getMessage();
       foreach($this->getServer()->getOnlinePlayers() as $players){
          if(isset(self::$coloredChatPlayers[$players->getName()])){ //<-self:: used to get/set a shared variable
-            $players->sendMessage("§6<".$player->getName()."> ".$message);//setMessage doesnt work in BigBrother?
+            $players->sendMessage("§6<".$player->getName().">§d ".$message);//setMessage doesnt work in BigBrother?
          }else{
             $players->sendMessage("<".$player->getName()."> ".$message);
          }
