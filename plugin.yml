@@ -8,11 +8,11 @@ commands:
     color:
         permission: Color.color
         description: Change text color
-permission:
+permissions:
     color:
         default: op
         description: Color command
         children:
-            Color.color:
-                default: op
+            color.color:
+                default: true
                 description: "Color"
