@@ -1,6 +1,6 @@
 ColoredChat
 ===========
-This plugin implements color in server chat
+This plugin implements color in the server chat
 
 How to use
 ===========
