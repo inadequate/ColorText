@@ -7,7 +7,7 @@ How to use
 
 Players can type /color to enable and disable colors in chat.
 
-To edit the <Prefix> color and the :Message color, just change in the config.yml
+To edit the Prefix color and the Message color, just change in the config.yml
 
 Reporting bugs
 ===========
