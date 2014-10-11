@@ -6,7 +6,7 @@ main: ColorText\ColorText
 description: Chat in color
 commands:
     color:
-        permission: Color.color
+        permission: color.color
         description: Change text color
 permissions:
     color:
