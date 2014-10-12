@@ -10,9 +10,9 @@ commands:
         description: Change text color
 permissions:
     color:
-        default: op
+        default: true
         description: Color command
         children:
             color.color:
                 default: true
-                description: "Color"
+                description: allow using command /color
