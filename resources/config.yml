@@ -1,9 +1,7 @@
 #the colors you can use are:
 #from "§0" to "§9" and from "§a" to "§f"
-#command: "on" or "off" to implement in the next version
+#setting "enabled" to false will disabile the effect of the plugin
 
-command: "on"
-
+enabled: true
 name: "§2"
-
 message: "§d"
