@@ -20,7 +20,12 @@ class ColorText extends PluginBase implements Listener{
 	     @mkdir($this->getDataFolder()); //<-Create plugin directory
 	     $this->saveDefaultConfig(); //<-Save default config
 	     self::$config = $this->getConfig()->getAll(); //<- Get config
-      $this->getServer()->getPluginManager()->registerEvents($this, $this);
+	     if(self::$config["enabled"] != true){
+		       $this->getLogger()->info("Plugin disabled");
+		       $this->getPluginLoader()->disablePlugin($this);
+		    }else{
+         $this->getServer()->getPluginManager()->registerEvents($this, $this);
+      }
       foreach($this->getServer()->getOnlinePlayers() as $player){
          $player->setRemoveFormat(false);
       }
