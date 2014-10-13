@@ -1,6 +1,6 @@
 name: ColorText
-version: 1.0.0
-api: [1.0.0]
+version: 1.2.0
+api: [1.4.0]
 author: Heromine
 main: ColorText\ColorText
 description: Chat in color
