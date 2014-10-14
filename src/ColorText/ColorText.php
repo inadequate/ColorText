@@ -15,6 +15,10 @@ use pocketmine\event\player\PlayerJoinEvent;
 class ColorText extends PluginBase implements Listener{
    private static $coloredChatPlayers=[]; //<- variable should be static for use self.
    private static $config;
+   
+   public function onLoad() {
+    $this->getLogger()->info(TextFormat::AQUA . "Loading ColorText v1.2.0...");
+  }
 
    public function onEnable(){
 	     @mkdir($this->getDataFolder()); //<-Create plugin directory
