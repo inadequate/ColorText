@@ -26,7 +26,7 @@ class ColorText extends PluginBase implements Listener{
 	     self::$config = $this->getConfig()->getAll(); //<- Get config
 	     if(self::$config["enabled"] != true){
 		       $this->getLogger()->info("Plugin disabled");
-		       $this->getPluginLoader()->disablePlugin($this);
+		       $this->getServer()->getPluginManager()->disablePlugin($this);
 		    }else{
          $this->getServer()->getPluginManager()->registerEvents($this, $this);
       }
