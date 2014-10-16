@@ -1,6 +1,8 @@
 #the colors you can use are:
 #from "§0" to "§9" and from "§a" to "§f"
 #setting "enabled" to false will disabile the effect of the plugin
+#if you use "§l" you will get the bold font
+#in message default wither "§l" is purple
 
 enabled: true
 name: "§2"
