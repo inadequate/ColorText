@@ -34,7 +34,7 @@ public function onLoad() {
 		    }
 	     if(self::$config["enabled"] != true){
 		       $this->getLogger()->info("Plugin disabled");
-		       $this->getPluginLoader()->disablePlugin($this);
+		      $this->getServer()->getPluginManager()->disablePlugin($this);
 		    }else{
          $this->getServer()->getPluginManager()->registerEvents($this, $this);
       }
