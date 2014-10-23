@@ -64,6 +64,10 @@ class ColorText extends PluginBase implements Listener{
       switch($cmd){
 	        case "color":
 	          if($sender instanceof Player){
+$sender->sendMessage(TextFormat::BLUE . "========= ColorText =========");
+ $sender->sendMessage(TextFormat::YELLOW . "=========== NOTE ===========");
+$sender->sendMessage(TextFormat::YELLOW . "Use /color to disable/enable colors in chat");
+$sender->sendMessage(TextFormat::YELLOW . "If it doesn't work type /discolor");
               if(isset($this->coloredChatPlayers[$sender->getName()])){ //<-you can't use in_array with this type of array
                  unset($this->coloredChatPlayers[$sender->getName()]);
                  $sender->sendMessage(TextFormat::RED . "You have disabled color chat!");
