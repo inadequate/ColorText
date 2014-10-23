@@ -13,21 +13,22 @@ use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 
 class ColorText extends PluginBase implements Listener{
-   private static $coloredChatPlayers=[]; //<- variable should be static for use self.
-   private static $config;
+
+   public function __construct(){
+	     $this->config = "";
+	     $this->coloredChatPlayers=[];
+	     $this->discolorPlayers=[];
+   }
 
    public function onEnable(){
 	     @mkdir($this->getDataFolder()); //<-Create plugin directory
 	     $this->saveDefaultConfig(); //<-Save default config
-	     self::$config = $this->getConfig()->getAll(); //<- Get config
-	     if(self::$config["enabled"] != true){
+	     $this->config = $this->getConfig()->getAll(); //<- Get config
+	     if($this->config["enabled"] != true){
 		       $this->getLogger()->info("Plugin disabled");
 		       $this->getPluginLoader()->disablePlugin($this);
 		    }else{
          $this->getServer()->getPluginManager()->registerEvents($this, $this);
-      }
-      foreach($this->getServer()->getOnlinePlayers() as $player){
-         $player->setRemoveFormat(false);
       }
    }
    /**
@@ -35,7 +36,9 @@ class ColorText extends PluginBase implements Listener{
     * @ignoreCancelled true
     */
    public function onJoin(PlayerJoinEvent $ev){
-      $ev->getPlayer()->setRemoveFormat(false);
+	     if(isset($this->discolorPlayers[$ev->getPlayer()->getName()])){
+		       $ev->getPlayer()->setRemoveFormat(false);
+		    }
    }
    /**
      * @param PlayerChatEvent $event
@@ -47,8 +50,8 @@ class ColorText extends PluginBase implements Listener{
       $player = $event->getPlayer();
       $message = $event->getMessage();
       foreach($this->getServer()->getOnlinePlayers() as $players){
-         if(isset(self::$coloredChatPlayers[$players->getName()])){ //<-self:: used to get/set a shared variable
-            $players->sendMessage(self::$config["name"]."<".$player->getName().">d ".self::$config["message"].$message);//setMessage doesnt work in BigBrother?
+         if(isset($this->coloredChatPlayers[$players->getName()])){
+            $players->sendMessage($this->config["name"]."<".$player->getName().">§d ".$this->config["message"].$message);
          }else{
             $players->sendMessage("<".$player->getName()."> ".$message);
          }
@@ -61,17 +64,29 @@ class ColorText extends PluginBase implements Listener{
       switch($cmd){
 	        case "color":
 	          if($sender instanceof Player){
-			  $sender->sendMessage(TextFormat::BLUE . "======== ColorText ========");
-			  $sender->sendMessage(TextFormat::YELLOW . "========== NOTE ==========");
-			  $sender->sendMessage(TextFormat::YELLOW . "Use /color to disable/enable");
-			  $sender->sendMessage(TextFormat::YELLOW . "colors in chat");
-              if(isset(self::$coloredChatPlayers[$sender->getName()])){ //<-you can't use in_array with this type of array
-                 unset(self::$coloredChatPlayers[$sender->getName()]);
+              if(isset($this->coloredChatPlayers[$sender->getName()])){ //<-you can't use in_array with this type of array
+                 unset($this->coloredChatPlayers[$sender->getName()]);
                  $sender->sendMessage(TextFormat::RED . "You have disabled color chat!");
                  break; //<-break is required to stop command execution
               }else{
-                 self::$coloredChatPlayers[$sender->getName()] = "";
+                 $this->coloredChatPlayers[$sender->getName()] = "";
                  $sender->sendMessage(TextFormat::GREEN . "You have enabled color chat!");
+                 break;
+              }
+           }
+           return true;
+         case "discolor":
+           if($sender instanceof Player){
+              if(isset($this->discolorPlayers[$sender->getName()])){ //<-you can't use in_array with this type of array
+                 unset($this->discolorPlayers[$sender->getName()]);
+                 $sender->sendMessage("You have disabled colors!");
+$sender->sendMessage("reason: you are in MCPE!");
+                 $sender->setRemoveFormat(true);
+                 break;
+              }else{
+                 $this->discolorPlayers[$sender->getName()] = "";
+                 $sender->sendMessage("You have enabled the color plugin!");
+                 $sender->setRemoveFormat(false);
                  break;
               }
            }
