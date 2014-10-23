@@ -13,7 +13,7 @@ To disable or enable the plugin set to false(d) or true(e) in the enabled sectio
 
 It will works only if you are still using BlockLauncher.
 
-Non-BlockLauncher users should type /discolor and will not get colored message(since there arent in mcpel
+Non-BlockLauncher users should type /discolor and will not get colored message(since there arent in mcpe)
 
 Reporting bugs
 ===========
