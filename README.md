@@ -11,6 +11,10 @@ To edit the Prefix color and the Message color, just change in the config.yml
 
 To disable or enable the plugin set to false(d) or true(e) in the enabled section
 
+It will works only if you are still using BlockLauncher.
+
+Non-BlockLauncher users should type /discolor and will not get colored message(since there arent in mcpel
+
 Reporting bugs
 ===========
 
