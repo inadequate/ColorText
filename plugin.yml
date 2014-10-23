@@ -1,13 +1,16 @@
 name: ColorText
-version: 1.2.0
+version: 1.1.0
 api: [1.4.0]
 author: Heromine
 main: ColorText\ColorText
 description: Chat in color
 commands:
     color:
-        permission: color.color
-        description: Change text color
+        permission: Color.color
+        description: Change messages color(First do /discolor)
+    discolor:
+        permission: Color.discolor
+        description: Disable color plugin if you are in MCPE
 permissions:
     color:
         default: true
@@ -15,4 +18,7 @@ permissions:
         children:
             color.color:
                 default: true
-                description: allow using command /color
+                description: "Color: enable colors for BlockLauncher users"
+            color.discolor:
+                default: true
+                description: "Discolor: disable colors for MCPE users"
