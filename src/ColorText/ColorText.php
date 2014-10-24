@@ -84,7 +84,7 @@ $sender->sendMessage(TextFormat::YELLOW . "If it doesn't work type /discolor");
               if(isset($this->discolorPlayers[$sender->getName()])){ //<-you can't use in_array with this type of array
                  unset($this->discolorPlayers[$sender->getName()]);
                  $sender->sendMessage("You have disabled colors!");
-$sender->sendMessage("reason: you are in MCPE!");
+                 $sender->sendMessage("reason: you are in MCPE!");
                  $sender->setRemoveFormat(true);
                  break;
               }else{
