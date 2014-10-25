@@ -38,7 +38,7 @@ class ColorText extends PluginBase implements Listener{
 	 */
 	public function onJoin(PlayerJoinEvent $ev){
 		if($this->coloredPlayers->exists($ev->getPlayer()->getName(), true)){ // check case-insensitively (the true parameter) if the player is in the colored players list
-			$ev->getPlayer()->setRemvoeFormat(true);
+			$ev->getPlayer()->setRemoveFormat(true);
 		}
 	}
 	/**
