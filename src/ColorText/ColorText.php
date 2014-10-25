@@ -62,14 +62,15 @@ class ColorText extends PluginBase implements Listener{
 					$sender->sendMessage(TextFormat::BLUE . "========= ColorText =========");
 					$sender->sendMessage(TextFormat::YELLOW . "=========== NOTE ===========");
 					$sender->sendMessage(TextFormat::YELLOW . "Use /color to disable/enable colors in chat");
-					if($this->coloredPlayers->exists($sender->getName(), true)){ //<-you can't use in_array with this type of array
+					if($this->coloredPlayers->exists($sender->getName(), true)){
 						$this->coloredPlayers->remove($sender->getName(), true); // whether this works when players change the case of their names (e.g. from Heromine to HeroMine) depends on https://github.com/PocketMine/PocketMine-MP/pull/2226
 						$sender->sendMessage(TextFormat::RED . "You have disabled color chat!");
-						break; //<-break is required to stop command execution
+						$sender->setRemoveFormat(true);
 					}else{
 						$this->coloredPlayers->set($sender->getName());
 						$sender->sendMessage(TextFormat::GREEN . "You have enabled color chat!");
-						break;
+						$sender->setRemoveFormat(false);
+						// who put a break here?
 					}
 				}
 				return true;
