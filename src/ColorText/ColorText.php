@@ -28,6 +28,9 @@ class ColorText extends PluginBase implements Listener{
 			$this->coloredPlayers = new Config($this->getDataFolder() . "colored-players.txt", Config::ENUM);
 		}
 	}
+	public function onDisable(){
+		$this->coloredPlayers->save();
+	}
 	/**
 	 * @priority HIGHEST
 	 *           ^^^^^^^ Do not change anything outside your plugin scope at the MONITOR priority
