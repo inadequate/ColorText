@@ -2,99 +2,75 @@
 
 namespace ColorText;
 
+use pocketmine\Player;
 use pocketmine\Server;
-use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\Player; //<- forgot to include Player library
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\utils\Config;
+use pocketmine\utils\TextFormat;
 
 class ColorText extends PluginBase implements Listener{
-
-   public function __construct(){
-	     $this->config = "";
-	     $this->coloredChatPlayers=[];
-	     $this->discolorPlayers=[];
-   }
-
-   public function onEnable(){
-	     @mkdir($this->getDataFolder()); //<-Create plugin directory
-	     $this->saveDefaultConfig(); //<-Save default config
-	     $this->config = $this->getConfig()->getAll(); //<- Get config
-	     if($this->config["enabled"] != true){
-		       $this->getLogger()->info("Plugin disabled");
-		       $this->getPluginLoader()->disablePlugin($this);
-		    }else{
-         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-      }
-   }
-   /**
-    * @priority MONITOR
-    * @ignoreCancelled true
-    */
-   public function onJoin(PlayerJoinEvent $ev){
-	     if(isset($this->discolorPlayers[$ev->getPlayer()->getName()])){
-		       $ev->getPlayer()->setRemoveFormat(false);
-		    }
-   }
-   /**
-     * @param PlayerChatEvent $event
-     *
-     * @priority LOWEST
-     * @ignoreCancelled false
-     */
-   public function onChat(PlayerChatEvent $event){
-      $player = $event->getPlayer();
-      $message = $event->getMessage();
-      foreach($this->getServer()->getOnlinePlayers() as $players){
-         if(isset($this->coloredChatPlayers[$players->getName()])){
-            $players->sendMessage($this->config["name"]."<".$player->getName().">§d ".$this->config["message"].$message);
-         }else{
-            $players->sendMessage("<".$player->getName()."> ".$message);
-         }
-      }
-      $event->setCancelled(true);
-   }
-   
-   public function onCommand(CommandSender $sender, Command $command, $label, array $args){
-      $cmd = strtolower($command); //<-Changed Code
-      switch($cmd){
-	        case "color":
-	          if($sender instanceof Player){
-$sender->sendMessage(TextFormat::BLUE . "========= ColorText =========");
- $sender->sendMessage(TextFormat::YELLOW . "=========== NOTE ===========");
-$sender->sendMessage(TextFormat::YELLOW . "Use /color to disable/enable colors in chat");
-$sender->sendMessage(TextFormat::YELLOW . "If it doesn't work type /discolor");
-              if(isset($this->coloredChatPlayers[$sender->getName()])){ //<-you can't use in_array with this type of array
-                 unset($this->coloredChatPlayers[$sender->getName()]);
-                 $sender->sendMessage(TextFormat::RED . "You have disabled color chat!");
-                 break; //<-break is required to stop command execution
-              }else{
-                 $this->coloredChatPlayers[$sender->getName()] = "";
-                 $sender->sendMessage(TextFormat::GREEN . "You have enabled color chat!");
-                 break;
-              }
-           }
-           return true;
-         case "discolor":
-           if($sender instanceof Player){
-              if(isset($this->discolorPlayers[$sender->getName()])){ //<-you can't use in_array with this type of array
-                 unset($this->discolorPlayers[$sender->getName()]);
-                 $sender->sendMessage("You have disabled colors!");
-                 $sender->sendMessage("reason: you are in MCPE!");
-                 $sender->setRemoveFormat(true);
-                 break;
-              }else{
-                 $this->discolorPlayers[$sender->getName()] = "";
-                 $sender->sendMessage("You have enabled the color plugin!");
-                 $sender->setRemoveFormat(false);
-                 break;
-              }
-           }
-           return true;
-      }
-   }
+	private $coloredPlayers;
+	public function onEnable(){
+		@mkdir($this->getDataFolder()); //<-Create plugin directory
+		$this->saveDefaultConfig(); //<-Save default config
+		$this->getConfig()->getAll(); //<- Get config
+		if($this->getConfig()->get("enabled") != true){
+			$this->getLogger()->info("Plugin disabled");
+			$this->getServer()->getPluginManager()->disablePlugin($this); // I confirmed this method is corect
+			return;
+		}else{
+			$this->getServer()->getPluginManager()->registerEvents($this, $this);
+			$this->coloredPlayers = new Config($this->getDataFolder() . "colored-players.txt", Config::ENUM);
+		}
+	}
+	/**
+	 * @priority HIGHEST
+	 *           ^^^^^^^ Do not change anything outside your plugin scope at the MONITOR priority
+	 * @ignoreCancelled true
+	 */
+	public function onJoin(PlayerJoinEvent $ev){
+		if($this->coloredPlayers->exists($ev->getPlayer()->getName(), true)){ // check case-insensitively (the true parameter) if the player is in the colored players list
+			$ev->getPlayer()->setRemvoeFormat(true);
+		}
+	}
+	/**
+	 * @param PlayerChatEvent $event
+	 *
+	 * @priority LOWEST
+	 * @ignoreCancelled false
+	 */
+	public function onChat(PlayerChatEvent $event){
+		$sender = $event->getPlayer();
+		$message = $event->getMessage();
+		if($this->coloredPlayers->exists($event->getPlayer()->getName(), true)){
+			$event->setFormat($this->getConfig()->get("name") . "<%s>§d " . $this->getConfig()->get("message") . "%s");
+		}
+	}
+	public function onCommand(CommandSender $sender, Command $command, $label, array $args){
+		$cmd = strtolower($command); //<-Changed Code
+		switch($cmd){
+			case "color":
+				if($sender instanceof Player){
+					$sender->sendMessage(TextFormat::BLUE . "========= ColorText =========");
+					$sender->sendMessage(TextFormat::YELLOW . "=========== NOTE ===========");
+					$sender->sendMessage(TextFormat::YELLOW . "Use /color to disable/enable colors in chat");
+					if($this->coloredPlayers->exists($sender->getName(), true)){ //<-you can't use in_array with this type of array
+						$this->coloredPlayers->remove($sender->getName(), true); // whether this works when players change the case of their names (e.g. from Heromine to HeroMine) depends on https://github.com/PocketMine/PocketMine-MP/pull/2226
+						$sender->sendMessage(TextFormat::RED . "You have disabled color chat!");
+						break; //<-break is required to stop command execution
+					}else{
+						$this->coloredPlayers->set($sender->getName());
+						$sender->sendMessage(TextFormat::GREEN . "You have enabled color chat!");
+						break;
+					}
+				}
+				return true;
+		}
+		return false;
+	}
 }
