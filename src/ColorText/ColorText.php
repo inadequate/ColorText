@@ -50,9 +50,7 @@ class ColorText extends PluginBase implements Listener{
 	public function onChat(PlayerChatEvent $event){
 		$sender = $event->getPlayer();
 		$message = $event->getMessage();
-		if($this->coloredPlayers->exists($event->getPlayer()->getName(), true)){
-			$event->setFormat($this->getConfig()->get("name") . "<%s>§d " . $this->getConfig()->get("message") . "%s");
-		}
+		$event->setFormat($this->getConfig()->get("name") . "<%s>§d " . $this->getConfig()->get("message") . "%s");
 	}
 	public function onCommand(CommandSender $sender, Command $command, $label, array $args){
 		$cmd = strtolower($command); //<-Changed Code
