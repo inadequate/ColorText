@@ -4,5 +4,5 @@
 #if you use "§l" you will get the bold font
 
 enabled: true
-name: "§2"
-message: "§d"
+name: "§6"
+message: "§3"
